@@ -964,8 +964,6 @@ function saveState(){
     console.error("No se pudo guardar el progreso:", e);
   }
 }{
-    try{ await window.storage.set(STATE_KEY, JSON.stringify(state)); }catch(e){}
-  }
 
   function wire(el, applyFn){
     el.addEventListener("click", function(){
