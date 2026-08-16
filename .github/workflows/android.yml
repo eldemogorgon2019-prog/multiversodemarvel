@@ -6,6 +6,9 @@ on:
     branches:
       - main
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,10 +17,16 @@ jobs:
       - name: Descargar código
         uses: actions/checkout@v4
 
+      - name: Leer versión
+        id: version
+        run: |
+          VERSION=$(cat VERSION)
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
       - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
 
       - name: Instalar dependencias
         run: npm install
@@ -31,8 +40,13 @@ jobs:
       - name: Sincronizar Capacitor
         run: npx cap sync android
 
+      - name: Configurar versión Android
+        run: |
+          sed -i 's/versionCode 1/versionCode ${{ github.run_number }}/' android/app/build.gradle
+          sed -i 's/versionName "1.0"/versionName "${{ steps.version.outputs.version }}"/' android/app/build.gradle
+
       - name: Configurar Java
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: 21
@@ -45,8 +59,10 @@ jobs:
           cd android
           ./gradlew assembleDebug
 
-      - name: Guardar APK
-        uses: actions/upload-artifact@v4
+      - name: Crear Release
+        uses: softprops/action-gh-release@v2
         with:
-          name: Marvel-App-APK
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          tag_name: v${{ steps.version.outputs.version }}
+          name: Marvel App v${{ steps.version.outputs.version }}
+          generate_release_notes: true
+          files: android/app/build/outputs/apk/debug/app-debug.apk
