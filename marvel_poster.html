@@ -930,25 +930,40 @@
   function applyRow(el){ el.classList.toggle("watched", !!state[el.dataset.id]); }
   function applyChip(el){ el.classList.toggle("watched", !!state[el.dataset.id]); }
 
-  async function loadState(){
-    try{
-      var res = await window.storage.get(STATE_KEY);
-      state = res ? JSON.parse(res.value) : {};
-      if(!res){
-        initiallyWatchedMovies.forEach(function(id){ state[id] = true; });
-      }
-    }catch(e){
+  function loadState(){
+  try{
+    var saved = localStorage.getItem(STATE_KEY);
+
+    if(saved){
+      state = JSON.parse(saved);
+    }else{
       state = {};
-      initiallyWatchedMovies.forEach(function(id){ state[id] = true; });
+      initiallyWatchedMovies.forEach(function(id){
+        state[id] = true;
+      });
+      saveState();
     }
-    movieRows.forEach(applyRow);
-    seriesCards.forEach(applyRow);
-    emRows.forEach(applyRow);
-    chips.forEach(applyChip);
-    updateProgress();
+  }catch(e){
+    state = {};
+    initiallyWatchedMovies.forEach(function(id){
+      state[id] = true;
+    });
   }
 
-  async function saveState(){
+  movieRows.forEach(applyRow);
+  seriesCards.forEach(applyRow);
+  emRows.forEach(applyRow);
+  chips.forEach(applyChip);
+  updateProgress();
+}
+
+function saveState(){
+  try{
+    localStorage.setItem(STATE_KEY, JSON.stringify(state));
+  }catch(e){
+    console.error("No se pudo guardar el progreso:", e);
+  }
+}{
     try{ await window.storage.set(STATE_KEY, JSON.stringify(state)); }catch(e){}
   }
 
