@@ -432,12 +432,130 @@
     margin-top:14px;
   }
 
-  @media(max-width:760px){
-    body{padding:34px 16px 60px;}
-    .movie-grid{grid-template-columns:1fr;}
-    .series-grid{grid-template-columns:1fr;}
-    .chip-grid{grid-template-columns:repeat(2, 1fr);}
-    .brand-mark{font-size:32px;}
+  @media (max-width: 760px){
+
+  body{
+    padding:24px 14px 50px;
+  }
+
+  .wrap{
+    width:100%;
+  }
+
+  header{
+    margin-bottom:28px;
+  }
+
+  .eyebrow{
+    font-size:11px;
+    letter-spacing:0.28em;
+    margin-bottom:8px;
+  }
+
+  .brand-row{
+    gap:12px;
+    flex-wrap:nowrap;
+  }
+
+  .brand-mark{
+    flex-shrink:0;
+    font-size:28px;
+    padding:5px 12px 7px;
+  }
+
+  h1{
+    font-size:clamp(25px,8vw,38px);
+    line-height:1;
+  }
+
+  .subhead{
+    font-size:11px;
+    line-height:1.5;
+    margin-top:8px;
+  }
+
+  .header-line{
+    margin-top:18px;
+  }
+
+  .progress-strip{
+    margin-top:16px;
+    gap:9px;
+    font-size:11px;
+  }
+
+  .progress-num{
+    font-size:12px;
+  }
+
+  .tier-label{
+    margin:42px 0 5px;
+  }
+
+  .tier-label .txt{
+    font-size:11px;
+  }
+
+  .section-label{
+    font-size:18px;
+    margin:30px 0 12px;
+    gap:8px;
+  }
+
+  .movie-grid{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .movie-row{
+    min-height:58px;
+    padding:10px 12px;
+    gap:10px;
+    border-radius:9px;
+  }
+
+  .movie-row .num{
+    min-width:25px;
+    font-size:12px;
+  }
+
+  .movie-row .icon{
+    font-size:20px;
+    width:26px;
+  }
+
+  .movie-row .title{
+    font-size:13px;
+    line-height:1.25;
+  }
+
+  .movie-row .year{
+    font-size:10px;
+  }
+
+  .movie-row .check{
+    font-size:13px;
+  }
+
+  .series-grid{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .chip-grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:8px;
+  }
+
+  .total-progress{
+    margin-top:38px;
+    padding:16px;
+  }
+
+  .total-progress .block-title{
+    font-size:17px;
+  }
+}
   }
 </style>
 </head>
